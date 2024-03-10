@@ -13,3 +13,63 @@
 змінювати записаний номер телефону, виводити в консоль всі записи, які зберіг. Щоб реалізувати таку нескладну логіку, 
 скористаємося словником. У словнику будемо зберігати ім'я користувача як ключ і номер телефону як значення.
 """
+
+phonebook = {}
+
+def add_contact(name, phone):
+    phonebook[name] = phone
+    print("Contact added.")
+
+def find_contact(name):
+    phone = phonebook.get(name)
+    if phone:
+        print(f'Номер телефону {name}: {phone}')
+    else:
+        print(f'Контакт {name} не знайдено')
+
+def update_contact(name, phone):
+    if name in phonebook:
+        phonebook[name] = phone
+        print("Contact updated.")
+    else:
+        print(f'Контакт {name} не знайдено')
+
+def list_contacts():
+    for name, phone in phonebook.items():
+        print(f'{name}: {phone}')
+
+def parse_input(user_input):
+    cmd, *args = user_input.split()
+    cmd = cmd.strip().lower()
+    return cmd, args
+
+def main():
+    print("Welcome to the assistant bot!")
+    while True:
+        user_input = input("Enter a command: ")
+        command, args = parse_input(user_input)
+
+        if command in ["close", "exit"]:
+            print("Good bye!")
+            break
+
+        elif command == "hello":
+            print("How can I help you?")
+
+        elif command == "add" and len(args) == 2:
+            add_contact(*args)
+
+        elif command == "change" and len(args) == 2:
+            update_contact(*args)
+
+        elif command == "phone" and len(args) == 1:
+            find_contact(*args)
+
+        elif command == "all":
+            list_contacts()
+
+        else:
+            print("Invalid command.")
+
+if __name__ == "__main__":
+    main()
